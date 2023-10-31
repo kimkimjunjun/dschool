@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from "react-query";
 import getPosting from '../service/get/getPosting';
+import Header from '../components/header';
 
 function Home() {
     const { isLoading: postsLoading, data: posts } = useQuery({
@@ -13,6 +14,7 @@ function Home() {
     if (postsLoading) return <div>Loading...</div>
     return (
         <div>
+            <Header />
             {posts.map((post, index) => {
                 return (
                     <div key={index}>
