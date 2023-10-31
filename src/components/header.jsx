@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import searchicon from "../icons/searchicon.svg";
-import { useQuery } from "react-query";
 import Logo from "../icons/dschool_logo1.png";
 import { Link, useNavigate } from "react-router-dom";
-import getSearch from "../service/search/getSearch";
 
 export default function Header() {
     const [query, setQuery] = useState("");

@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/home';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Search from './pages/search';
@@ -13,7 +13,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/search:query' element={<Search />} />
+            <Route path='/search/:query' element={<Search />} />
           </Routes>
         </BrowserRouter>
       </div>

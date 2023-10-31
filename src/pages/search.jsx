@@ -5,15 +5,18 @@ import getSearch from '../service/search/getSearch';
 import { useParams } from 'react-router-dom';
 
 function Search() {
-
     const { query } = useParams();
 
     const { isLoading, data: results } = useQuery({
         queryKey: ["search", query],
-        queryFn: () => getSearch(),
+        queryFn: () => getSearch(query),
     });
 
     console.log(results);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
@@ -28,5 +31,6 @@ function Search() {
         </div>
     )
 }
+
 
 export default Search;
