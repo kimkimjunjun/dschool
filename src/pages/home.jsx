@@ -5,6 +5,7 @@ import Header from '../components/header';
 import replie from "../icons/replie.png";
 import { Link } from 'react-router-dom';
 import Pagination from '../components/pagination';
+import putClicked from '../service/put/putClicked';
 
 function Home() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -14,6 +15,10 @@ function Home() {
         queryKey: ["main", "posts"],
         queryFn: () => getPosting(),
     });
+
+    const handleIncreaseClicked = async (item_idx) => {
+        putClicked(item_idx);
+    }
 
     // 현재 페이지의 데이터 범위 계산
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -35,7 +40,7 @@ function Home() {
                 <div className='flex h-[37rem] justify-center p-2'>
                     <div className='w-[40rem] border border-[#d6d6d6] bg-white'>
                         {currentItems.map((item, index) => (
-                            <Link to={`/board/${item._source.item_idx}`} key={index}>
+                            <Link to={`/board/${item._source.item_idx}`} key={index} onClick={() => handleIncreaseClicked(item._source.item_idx)}>
                                 <div className='w-full p-3 pr-8'>
                                     <div className='w-full h-fit mb-5'>
                                         <div className='flex mb-2 space-x-2 font-bold items-center'>
