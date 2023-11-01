@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import Pagination from '../components/pagination';
 
 function Home() {
-    const { query, setQuery } = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(4);
 
@@ -31,7 +30,7 @@ function Home() {
     if (postsLoading) return <div>Loading...</div>
     return (
         <div>
-            <Header query={query} setQuery={setQuery} />
+            <Header />
             <div className=" bg-gray-200 h-screen">
                 <div className='flex h-[37rem] justify-center p-2'>
                     <div className='w-[40rem] border border-[#d6d6d6] bg-white'>
