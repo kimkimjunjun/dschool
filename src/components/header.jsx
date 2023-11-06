@@ -2,6 +2,7 @@ import { useState } from "react";
 import searchicon from "../icons/searchicon.svg";
 import Logo from "../icons/dschool_logo1.png";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 export default function Header() {
     const [query, setQuery] = useState("");
@@ -14,6 +15,12 @@ export default function Header() {
 
     const handleSearch = () => {
         navigate(`/search/${query}`);
+    }
+
+    const handleKeyPress = (e) => {
+        if (e?.key === "Enter") {
+            navigate(`/search/${query}`)
+        }
     }
 
     return (
@@ -35,6 +42,7 @@ export default function Header() {
                         style={{ width: '90%', height: '90%' }}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
+                        onKeyPress={handleKeyPress}
                     />
                     <span className="w-10 h-10">
                         <img

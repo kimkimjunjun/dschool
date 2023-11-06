@@ -5,6 +5,7 @@ import replie from '../icons/replie.png';
 import getSearch from '../service/search/getSearch';
 import { Link, useParams } from 'react-router-dom';
 import Pagination from '../components/pagination';
+import putClicked from '../service/put/putClicked';
 
 function Search() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -15,6 +16,10 @@ function Search() {
         queryKey: ["search", query],
         queryFn: () => getSearch(query),
     });
+
+    const handleIncreaseClicked = async (item_idx) => {
+        putClicked(item_idx);
+    }
 
     // 현재 페이지의 데이터 범위 계산
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -38,14 +43,21 @@ function Search() {
             <div className=" bg-gray-200 h-screen">
                 {<div className='flex justify-center p-2'>
                     <div className='w-[40rem] border border-[#d6d6d6] bg-white'>
-                        {results === '' ? <div>검색 결과가 없습니다.</div> : currentItems.map((item, index) => (
-                            <Link to={`/board/${item._source.item_idx}`} key={index}>
+                        <div className='flex'>
+                            <hr className="bg-[#ff0000] w-1 h-6 ml-3 self-center" />
+                            <h1 className='flex text-xl p-3 px-6'><p className='text-[#FF0000] font-medium'>{query}</p>&nbsp;관련글</h1>
+                        </div>
+                        <div className='w-full h-0.5 bg-[#d6d6d6]' />
+                        {results === "" ? <div>검색 결과가 없습니다.</div> : currentItems.map((item, index) => (
+                            <Link to={`/board/${item._source.item_idx}`} key={index} onClick={() => handleIncreaseClicked(item._source.item_idx)}>
                                 <div className='w-full p-3 pr-8'>
                                     <div className='w-full h-fit mb-5'>
                                         <div className='flex mb-2 space-x-2 font-bold items-center'>
                                             <h1 className=' max-w-xs'>{item._source.subject}</h1>
                                             <hr className="bg-[#a5a5a5] w-0.5 h-4" />
                                             <span className='text-[#a5a5a5]'>{item._source.created_at}</span>
+                                            <hr className="bg-[#a5a5a5] w-0.5 h-4" />
+                                            <span className='text-[#a5a5a5]'>{item._source.clicked}</span>
                                             <hr className="bg-[#a5a5a5] w-0.5 h-4" />
                                             <span className='text-[#a5a5a5] flex'>
                                                 <img
