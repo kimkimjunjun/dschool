@@ -8,7 +8,7 @@ const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
 
     return (
         <nav>
-            <ul className='flex justify-center space-x-2 my-10'>
+            <ul className='flex fixed top-[44rem] justify-center space-x-2 my-10'>
                 {pageNumbers.map((number) => (
                     <li
                         key={number}

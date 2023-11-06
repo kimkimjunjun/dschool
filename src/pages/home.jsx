@@ -38,7 +38,7 @@ function Home() {
             <Header />
             <div className=" bg-gray-200 h-screen">
                 <div className='flex h-[37rem] justify-center p-2'>
-                    <div className='w-[40rem] border border-[#d6d6d6] bg-white'>
+                    <div className='w-[40rem] h-[40rem] border border-[#d6d6d6] bg-white'>
                         {currentItems.map((item, index) => (
                             <Link to={`/board/${item._source.item_idx}`} key={index} onClick={() => handleIncreaseClicked(item._source.item_idx)}>
                                 <div className='w-full p-3 pr-8'>
@@ -73,7 +73,7 @@ function Home() {
                             currentPage={currentPage}
                         />
                     </div>
-                    <div className='w-[30rem] border border-[#d6d6d6] p-3 ml-2 bg-white'>
+                    <div className='w-[30rem] h-[40rem] border border-[#d6d6d6] p-3 ml-2 bg-white'>
                         <div className='w-full h-fit pb-3'>
                             <span className='flex'><p className='font-bold text-red-600'>홍길동</p>님을 위한 추천글</span>
                         </div>

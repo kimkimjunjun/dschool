@@ -2,7 +2,6 @@ import { useState } from "react";
 import searchicon from "../icons/searchicon.svg";
 import Logo from "../icons/dschool_logo1.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 
 export default function Header() {
     const [query, setQuery] = useState("");
