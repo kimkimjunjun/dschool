@@ -42,7 +42,7 @@ function Search() {
             <Header />
             <div className=" bg-gray-200 h-screen">
                 {<div className='flex justify-center p-2'>
-                    <div className='w-[40rem] border border-[#d6d6d6] bg-white'>
+                    <div className='w-[40rem] h-[45rem] border border-[#d6d6d6] bg-white'>
                         <div className='flex'>
                             <hr className="bg-[#ff0000] w-1 h-6 ml-3 self-center" />
                             <h1 className='flex text-xl p-3 px-6'><p className='text-[#FF0000] font-medium'>{query}</p>&nbsp;관련글</h1>
@@ -53,7 +53,7 @@ function Search() {
                                 <div className='w-full p-3 pr-8'>
                                     <div className='w-full h-fit mb-5'>
                                         <div className='flex mb-2 space-x-2 font-bold items-center'>
-                                            <h1 className=' max-w-xs'>{item._source.subject}</h1>
+                                            <h1 className=' max-w-sm text-ellipsis overflow-hidden theboki0'>{item._source.subject}</h1>
                                             <hr className="bg-[#a5a5a5] w-0.5 h-4" />
                                             <span className='text-[#a5a5a5]'>{item._source.created_at}</span>
                                             <hr className="bg-[#a5a5a5] w-0.5 h-4" />

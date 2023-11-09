@@ -44,7 +44,7 @@ function Home() {
                                 <div className='w-full p-3 pr-8'>
                                     <div className='w-full h-fit mb-5'>
                                         <div className='flex mb-2 space-x-2 font-bold items-center'>
-                                            <h1 className=' max-w-xs'>{item._source.subject}</h1>
+                                            <h1 className=' max-w-sm text-ellipsis overflow-hidden theboki0'>{item._source.subject}</h1>
                                             <hr className="bg-[#a5a5a5] w-0.5 h-4" />
                                             <span className='text-[#a5a5a5]'>{item._source.created_at}</span>
                                             <hr className="bg-[#a5a5a5] w-0.5 h-4" />
