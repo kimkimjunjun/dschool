@@ -48,7 +48,7 @@ function Search() {
                             <h1 className='flex text-xl p-3 px-6'><p className='text-[#FF0000] font-medium'>{query}</p>&nbsp;관련글</h1>
                         </div>
                         <div className='w-full h-0.5 bg-[#d6d6d6]' />
-                        {results === "" ? <div>검색 결과가 없습니다.</div> : currentItems.map((item, index) => (
+                        {results == "" ? <div className='text-center text-[20px] pt-5 font-bold'>검색 결과가 없습니다.</div> : currentItems.map((item, index) => (
                             <Link to={`/board/${item._source.item_idx}`} key={index} onClick={() => handleIncreaseClicked(item._source.item_idx)}>
                                 <div className='w-full p-3 pr-8'>
                                     <div className='w-full h-fit mb-5'>
