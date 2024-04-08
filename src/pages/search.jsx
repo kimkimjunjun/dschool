@@ -9,7 +9,7 @@ import putClicked from '../service/put/putClicked';
 
 function Search() {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(10);
     const { query } = useParams();
 
     const { isLoading, data: results } = useQuery({
@@ -40,9 +40,9 @@ function Search() {
     return (
         <div>
             <Header />
-            <div className=" bg-gray-200 h-screen">
+            <div className=" bg-gray-200 h-fit">
                 {<div className='flex justify-center p-2'>
-                    <div className='w-[40rem] h-[45rem] border border-[#d6d6d6] bg-white'>
+                    <div className='w-[40rem] h-fit border border-[#d6d6d6] bg-white'>
                         <div className='flex'>
                             <hr className="bg-[#ff0000] w-1 h-6 ml-3 self-center" />
                             <h1 className='flex text-xl p-3 px-6'><p className='text-[#FF0000] font-medium'>{query}</p>&nbsp;관련글</h1>

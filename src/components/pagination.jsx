@@ -18,7 +18,7 @@ const Pagination = ({ itemsPerPage, totalItems, currentPage, paginate }) => {
 
     return (
         <nav>
-            <ul className="flex fixed w-[40rem] top-[43rem] justify-center space-x-2 my-10">
+            <ul className="flex w-[40rem] top-[43rem] justify-center space-x-2 my-10">
                 {/* 이전 페이지로 이동 */}
                 {currentPage > 1 && (
                     <li className="text-xl cursor-pointer" onClick={() => paginate(currentPage - 1)}>
