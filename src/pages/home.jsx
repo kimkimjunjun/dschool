@@ -10,13 +10,14 @@ import getPagenation from '../service/paging/getPagenation';
 import getd2v from '../service/get/getd2v';
 import { useRecoilState } from 'recoil';
 import { d2vDataAtom } from '../recoil/atom';
+import getfm from '../service/get/getfm';
 
 
 function Home() {
     const [currentPage, setCurrentPage] = useState(1);
     const [recommended, setRecommended] = useState([]);
     const [itemsPerPage] = useState(10);
-    const [d2vData, setD2vData] = useRecoilState(d2vDataAtom);
+    const [fmData, setFmData] = useState([]);
 
     const { isLoading: postsLoading, data: posts } = useQuery({
         queryKey: ["posts", currentPage],
@@ -48,19 +49,25 @@ function Home() {
     }
 
     useEffect(() => {
-        const fetchD2vData = async () => {
+        const fetchFmData = async () => {
             const clickedItems = Cookies.get('clickedItems') ? JSON.parse(Cookies.get('clickedItems')) : [];
-            const dataPromises = clickedItems.map(item_idx => getd2v(item_idx));
-            const results = await Promise.all(dataPromises);
-            setD2vData(results);
+
+            if (clickedItems.length === 0) {
+                return;
+            }
+
+            // 수정된 부분: 클릭된 아이템들에 대해 한 번의 요청으로 추천 아이템들을 가져온다
+            const recommendedItems = await getfm(clickedItems);
+            if (recommendedItems) {
+                setFmData(recommendedItems); // 추천 아이템들을 상태에 저장
+            }
         };
 
-
-        fetchD2vData();
+        fetchFmData();
     }, []); // 의존성 배열이 비어있으므로, 컴포넌트가 마운트될 때 한 번만 실행됩니다.
 
     // d2vData를 사용하여 렌더링 또는 기타 로직 처리
-    console.log(d2vData[0]?.hits.hits);
+    console.log(fmData);
 
     // 페이지 번호 변경 시 호출할 함수
     const paginate = (pageNumber) => {
@@ -116,7 +123,7 @@ function Home() {
                         </div>
                         <div className='w-full h-0.5 bg-[#d6d6d6]' />
                         <div>
-                            {d2vData[0]?.hits.hits.slice(0, 6).map((recData, index) => {
+                            {fmData.map((recData, index) => {
 
                                 return (
                                     <Link to={`/board/${recData._source.item_idx}`} key={index} onClick={() => handleIncreaseClicked(recData._source.item_idx)}>

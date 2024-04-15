@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import getPosting from '../service/get/getPosting';
 import { useQuery } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
@@ -10,10 +10,11 @@ import { useRecoilValue } from 'recoil';
 import { d2vDataAtom } from '../recoil/atom';
 import replie from "../icons/replie.png";
 import Cookies from 'js-cookie';
+import getd2v from '../service/get/getd2v';
 
 function Board() {
     const { item_idx } = useParams();
-    const d2vData = useRecoilValue(d2vDataAtom);
+    const [d2vData, setD2vData] = useState([]);
 
     const { isLoading: postsLoading, data: posts } = useQuery({
         queryKey: ["getBoarding", item_idx],
@@ -36,6 +37,24 @@ function Board() {
         // 업데이트된 배열을 다시 쿠키에 저장한다
         Cookies.set('clickedItems', JSON.stringify(clickedItems), { expires: 7 }); // 7일 동안 쿠키 유지
     }
+
+    useEffect(() => {
+        const fetchD2vData = async () => {
+            const clickedItems = Cookies.get('clickedItems') ? JSON.parse(Cookies.get('clickedItems')) : [];
+
+            if (clickedItems.length === 0) {
+                return;
+            }
+
+            // 수정된 부분: 클릭된 아이템들에 대해 한 번의 요청으로 추천 아이템들을 가져온다
+            const recommendedItems = await getd2v(clickedItems);
+            if (recommendedItems) {
+                setD2vData(recommendedItems); // 추천 아이템들을 상태에 저장
+            }
+        };
+
+        fetchD2vData();
+    }, []);
 
     console.log(posts);
 
@@ -95,7 +114,7 @@ function Board() {
                             <span className='flex'>유사 추천글</span>
                         </div>
                         <div className='w-full h-0.5 bg-[#d6d6d6]' />
-                        {d2vData[0]?.hits.hits.map((recData, index) => {
+                        {d2vData.map((recData, index) => {
 
                             return (
                                 <Link to={`/board/${recData._source.item_idx}`} key={index} onClick={() => handleIncreaseClicked(recData._source.item_idx)}>
