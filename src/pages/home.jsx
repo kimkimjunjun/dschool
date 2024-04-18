@@ -141,7 +141,7 @@ function Home() {
                                                     <img
                                                         className='w-5 h-5 flex self-center mt-1 mr-1'
                                                         src={replie}
-                                                        alt='d'
+                                                        alt='replie'
                                                     />
                                                     {recData._source.replies?.length}
                                                 </span>
