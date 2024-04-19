@@ -15,7 +15,6 @@ import getfm from '../service/get/getfm';
 
 function Home() {
     const [currentPage, setCurrentPage] = useState(1);
-    const [recommended, setRecommended] = useState([]);
     const [itemsPerPage] = useState(10);
     const [fmData, setFmData] = useState([]);
 
