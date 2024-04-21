@@ -50,7 +50,6 @@ function Home() {
     useEffect(() => {
         const fetchFmData = async () => {
             const clickedItems = Cookies.get('clickedItems') ? JSON.parse(Cookies.get('clickedItems')) : [];
-
             if (clickedItems.length === 0) {
                 return;
             }
@@ -60,6 +59,7 @@ function Home() {
             if (recommendedItems) {
                 setFmData(recommendedItems); // 추천 아이템들을 상태에 저장
             }
+
         };
 
         fetchFmData();

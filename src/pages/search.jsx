@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
 import Header from '../components/header';
 import replie from '../icons/replie.png';
@@ -6,20 +6,21 @@ import getSearch from '../service/search/getSearch';
 import { Link, useParams } from 'react-router-dom';
 import Pagination from '../components/pagination';
 import putClicked from '../service/put/putClicked';
+import getd2v from '../service/get/getd2v';
+import Cookies from 'js-cookie';
+import getfm from '../service/get/getfm';
 
 function Search() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
     const { query } = useParams();
+    const [d2vData, setD2vData] = useState([]);
+    const [fmData, setFmData] = useState([]);
 
     const { isLoading, data: results } = useQuery({
         queryKey: ["search", query],
         queryFn: () => getSearch(query),
     });
-
-    const handleIncreaseClicked = async (item_idx) => {
-        putClicked(item_idx);
-    }
 
     // 현재 페이지의 데이터 범위 계산
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -31,7 +32,46 @@ function Search() {
         setCurrentPage(pageNumber);
     };
 
-    console.log(results);
+    const handleIncreaseClicked = async (item_idx) => {
+
+        // 쿠키에서 이전 item_idx 리스트를 가져온다
+        const clickedItems = Cookies.get('clickedItems') ? JSON.parse(Cookies.get('clickedItems')) : [];
+
+        // 최근 클릭된 item_idx를 배열 앞에 추가한다
+        clickedItems.unshift(item_idx);
+
+        // 배열의 크기가 3을 초과하면, 가장 오래된 값을 제거한다
+        if (clickedItems?.length > 3) {
+            clickedItems.pop();
+        }
+
+        // 업데이트된 배열을 다시 쿠키에 저장한다
+        Cookies.set('clickedItems', JSON.stringify(clickedItems), { expires: 7 }); // 7일 동안 쿠키 유지
+    }
+
+    useEffect(() => {
+        const fetchD2vData = async () => {
+            const clickedItems = Cookies.get('clickedItems') ? JSON.parse(Cookies.get('clickedItems')) : [];
+
+            if (clickedItems.length === 0) {
+                return;
+            }
+
+            // 수정된 부분: 클릭된 아이템들에 대해 한 번의 요청으로 추천 아이템들을 가져온다
+            const recommendedItems = await getd2v(clickedItems);
+            const recommendedFmItems = await getfm(clickedItems);
+            if (recommendedItems) {
+                setD2vData(recommendedItems); // 추천 아이템들을 상태에 저장
+            }
+            if (recommendedFmItems) {
+                setFmData(recommendedFmItems);
+            }
+        };
+
+        fetchD2vData();
+    }, []);
+
+    console.log(fmData);
 
     if (isLoading) {
         return <div>Loading...</div>;

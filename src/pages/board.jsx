@@ -56,7 +56,7 @@ function Board() {
         fetchD2vData();
     }, []);
 
-    console.log(posts);
+    console.log(d2vData);
 
     if (postsLoading) return <div>Loding...</div>
 
