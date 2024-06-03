@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import getPosting from '../service/get/getPosting';
 import { useQuery } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
 import Header from '../components/header';
 import getBoarding from '../service/get/getBoarding';
 import BackButton from '../components/backbutton';
 import TopButton from '../components/topbutton';
-import { useRecoilValue } from 'recoil';
-import { d2vDataAtom } from '../recoil/atom';
 import replie from "../icons/replie.png";
 import Cookies from 'js-cookie';
 import getd2v from '../service/get/getd2v';
@@ -20,6 +17,7 @@ function Board() {
         queryKey: ["getBoarding", item_idx],
         queryFn: () => getBoarding(item_idx),
     });
+
 
     const handleIncreaseClicked = async (item_idx) => {
 
@@ -40,14 +38,8 @@ function Board() {
 
     useEffect(() => {
         const fetchD2vData = async () => {
-            const clickedItems = Cookies.get('clickedItems') ? JSON.parse(Cookies.get('clickedItems')) : [];
-
-            if (clickedItems.length === 0) {
-                return;
-            }
-
             // 수정된 부분: 클릭된 아이템들에 대해 한 번의 요청으로 추천 아이템들을 가져온다
-            const recommendedItems = await getd2v(clickedItems);
+            const recommendedItems = await getd2v(item_idx);
             if (recommendedItems) {
                 setD2vData(recommendedItems); // 추천 아이템들을 상태에 저장
             }

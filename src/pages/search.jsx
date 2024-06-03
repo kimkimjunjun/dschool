@@ -5,8 +5,6 @@ import replie from '../icons/replie.png';
 import getSearch from '../service/search/getSearch';
 import { Link, useParams } from 'react-router-dom';
 import Pagination from '../components/pagination';
-import putClicked from '../service/put/putClicked';
-import getd2v from '../service/get/getd2v';
 import Cookies from 'js-cookie';
 import getfm from '../service/get/getfm';
 
@@ -14,7 +12,6 @@ function Search() {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
     const { query } = useParams();
-    const [d2vData, setD2vData] = useState([]);
     const [fmData, setFmData] = useState([]);
 
     const { isLoading, data: results } = useQuery({
@@ -50,25 +47,21 @@ function Search() {
     }
 
     useEffect(() => {
-        const fetchD2vData = async () => {
+        const fetchFmData = async () => {
             const clickedItems = Cookies.get('clickedItems') ? JSON.parse(Cookies.get('clickedItems')) : [];
-
             if (clickedItems.length === 0) {
                 return;
             }
 
             // 수정된 부분: 클릭된 아이템들에 대해 한 번의 요청으로 추천 아이템들을 가져온다
-            const recommendedItems = await getd2v(clickedItems);
-            const recommendedFmItems = await getfm(clickedItems);
+            const recommendedItems = await getfm(clickedItems);
             if (recommendedItems) {
-                setD2vData(recommendedItems); // 추천 아이템들을 상태에 저장
+                setFmData(recommendedItems); // 추천 아이템들을 상태에 저장
             }
-            if (recommendedFmItems) {
-                setFmData(recommendedFmItems);
-            }
+
         };
 
-        fetchD2vData();
+        fetchFmData();
     }, []);
 
     console.log(fmData);
@@ -88,7 +81,7 @@ function Search() {
                             <h1 className='flex text-xl p-3 px-6'><p className='text-[#FF0000] font-medium'>{query}</p>&nbsp;관련글</h1>
                         </div>
                         <div className='w-full h-0.5 bg-[#d6d6d6]' />
-                        {results == "" ? <div className='text-center text-[20px] pt-5 font-bold'>검색 결과가 없습니다.</div> : currentItems.map((item, index) => (
+                        {results === "" ? <div className='text-center text-[20px] pt-5 font-bold'>검색 결과가 없습니다.</div> : currentItems.map((item, index) => (
                             <Link to={`/board/${item._source.item_idx}`} key={index} onClick={() => handleIncreaseClicked(item._source.item_idx)}>
                                 <div className='w-full p-3 pr-8'>
                                     <div className='w-full h-fit mb-5'>
@@ -127,7 +120,37 @@ function Search() {
                             <span className='flex'><p className='font-bold text-red-600'>홍길동</p>님을 위한 추천글</span>
                         </div>
                         <div className='w-full h-0.5 bg-[#d6d6d6]' />
+                        <div>
+                            {fmData.map((recData, index) => {
 
+                                return (
+                                    <Link to={`/board/${recData._source.item_idx}`} key={index} onClick={() => handleIncreaseClicked(recData._source.item_idx)}>
+                                        <div className='w-full px-1'>
+                                            <div className='flex flex-col mb-2 font-bold'>
+                                                <h1 className='max-w-sm py-1 text-ellipsis overflow-hidden theboki0'>{recData._source.subject}</h1>
+                                                <span className='w-full font-normal break-words text-ellipsis overflow-hidden theboki1'>{recData._source.contents}</span>
+                                            </div>
+                                            <div className='flex mb-2 space-x-2 font-bold items-center'>
+                                                <span className='text-[#a5a5a5]'>{recData._source.created_at}</span>
+                                                <hr className="bg-[#a5a5a5] w-0.5 h-4" />
+                                                <span className='text-[#a5a5a5]'>{recData._source.clicked}</span>
+                                                <hr className="bg-[#a5a5a5] w-0.5 h-4" />
+                                                <span className='text-[#a5a5a5] flex'>
+                                                    <img
+                                                        className='w-5 h-5 flex self-center mt-1 mr-1'
+                                                        src={replie}
+                                                        alt='replie'
+                                                    />
+                                                    {recData._source.replies?.length}
+                                                </span>
+                                            </div>
+                                            <div className='w-full h-0.5 bg-[#d6d6d6]' />
+                                        </div>
+                                    </Link>
+                                )
+                            })}
+
+                        </div>
                     </div>
                 </div>}
             </div>

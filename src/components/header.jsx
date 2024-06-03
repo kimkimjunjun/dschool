@@ -25,13 +25,9 @@ export default function Header() {
     return (
         <div>
             <div className="w-[70rem] h-28 flex mx-auto">
-                <Link to='/' className="flex flex-col items-center self-center ml-2 mt-5 cursor-pointer">
-                    <img
-                        className="w-36"
-                        src={Logo}
-                        alt="logo"
-                    />
-                    <h1 className="text-sm font-medium mt-1 font-sans">강남서초송파 학부모 커뮤니티</h1>
+                <Link to='/' className="flex flex-col items-center self-center ml-2 cursor-pointer">
+                    <h1 className="text-[2.5rem] font-bold"><a className="text-red-600">C</a>school</h1>
+                    <h1 className="text-sm font-medium font-sans">아이들을 위한 학부모 커뮤니티</h1>
                 </Link>
                 <div className="w-[30rem] h-10 flex border pl-2 ml-10 border-red-600 items-center self-center">
                     <input
